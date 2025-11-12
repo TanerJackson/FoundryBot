@@ -1,0 +1,23 @@
+{
+  "name": "foundrybot",
+  "version": "1.0.0",
+  "description": "JS Bot to perform administrative tasks for foundryOSRS",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TanerJackson/FoundryBot.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/TanerJackson/FoundryBot/issues"
+  },
+  "homepage": "https://github.com/TanerJackson/FoundryBot#readme",
+  "dependencies": {
+    "discord.js": "^14.24.2"
+  }
+}
