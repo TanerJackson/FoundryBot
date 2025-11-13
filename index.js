@@ -16,7 +16,7 @@ const client = new Client({
   ],
 });
 
-client.once("ready", () => {
+client.once("clientReady", () => {
   console.log(`Bot ready to go, logged in as ${client.user.tag}`);
 });
 
