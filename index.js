@@ -39,7 +39,7 @@ client.on("messageCreate", async (message) => {
 
     console.log("Bold text found:", boldText);
 
-    // Optional: reply or react when bold text is found
+    // reply or react when bold text is found
     await message.react("✅");
     await message.reply(
       `Bold text used in your message: ${boldText.join(", ")}`
