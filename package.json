@@ -1,4 +1,5 @@
 {
+  "type": "module",
   "name": "foundrybot",
   "version": "1.0.0",
   "description": "JS Bot to perform administrative tasks for foundryOSRS",
