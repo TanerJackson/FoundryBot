@@ -2,7 +2,7 @@
 import foundrybotid from "./gamebotid.js";
 import dotenv from "dotenv";
 import { Client, GatewayIntentBits } from "discord.js";
-import { addPoints, getAllPoints } from "./points.js";
+import { addPoints, getAllPoints, getPoints } from "./points.js";
 
 dotenv.config();
 //REMEMBER BOT ID IS NOT CORRECT YET
@@ -62,7 +62,31 @@ client.on("messageCreate", async (message) => {
     message.reply(leaderboardText);
   }
 });
+
+//get own points
+
+client.on("messageCreate", async (message) => {
+  if (message.content.startsWith("!points")) {
+    let targetMember;
+
+    if (message.mentions.members.size > 0) {
+      targetMember = message.mentions.members.first();
+    } else {
+      targetMember = message.member;
+    }
+    const username = targetMember.displayName;
+    const total = getPoints(username);
+    message.reply(`${username} has ${total} points.`);
+  }
+});
 //EVERYTHING BELOW ARE TEST CASES
+client.on("messageCreate", async (message) => {
+  if (message.content === "!userinfo") {
+    console.log(message.author); // Full User object
+    console.log(message.member); // Full GuildMember object
+    message.reply("check the logs");
+  }
+});
 
 client.on("messageCreate", async (message) => {
   if (message.content === "thank you bot") {

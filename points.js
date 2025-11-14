@@ -28,6 +28,18 @@ export function addPoints(username, amount) {
   savePoints();
 }
 
+export function getPoints(username) {
+  if (typeof username !== "string") {
+    messageLink.reply("username broken @TigerShrimp", username);
+    username = String(username);
+  }
+
+  if (!points[username]) return 0;
+
+  const value = Number(points[username]);
+  return isNaN(value) ? 0 : value;
+}
+
 export function getAllPoints() {
   return points;
 }
