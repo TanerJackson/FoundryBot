@@ -10,7 +10,7 @@ if (fs.existsSync(pointsFile)) {
 let savePoints = () => {
   fs.writeFileSync(pointsFile, JSON.stringify(points, null, 2));
 };
-
+//addpoints
 export function addPoints(username, amount) {
   if (typeof username !== "string") {
     console.warn("⚠️ addPoints received a non-string username:", username);
@@ -26,4 +26,8 @@ export function addPoints(username, amount) {
 
   points[username] = currentPoints + amount;
   savePoints();
+}
+
+export function getAllPoints() {
+  return points;
 }

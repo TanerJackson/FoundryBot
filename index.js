@@ -2,7 +2,7 @@
 import foundrybotid from "./gamebotid.js";
 import dotenv from "dotenv";
 import { Client, GatewayIntentBits } from "discord.js";
-import { addPoints } from "./points.js";
+import { addPoints, getAllPoints } from "./points.js";
 
 dotenv.config();
 //REMEMBER BOT ID IS NOT CORRECT YET
@@ -37,6 +37,29 @@ client.on("messageCreate", async (message) => {
       addPoints(username, amount);
       message.reply(`Awarded ${amount} points to ${username}`);
     }
+  }
+});
+
+//leaderboard
+client.on("messageCreate", async (message) => {
+  if (message.content !== "!leaderboard") return;
+
+  const allPoints = getAllPoints();
+  const entries = Object.entries(allPoints);
+  if (message.content === "!leaderboard") {
+    if (entries.length === 0) {
+      return message.reply("No points!");
+    }
+
+    entries.sort((a, b) => b[1] - a[1]);
+
+    let leaderboardText = "** Leaderboard **\n\n";
+
+    for (const [user, points] of entries) {
+      leaderboardText += `**${user}** — ${points} points\n`;
+    }
+
+    message.reply(leaderboardText);
   }
 });
 //EVERYTHING BELOW ARE TEST CASES
