@@ -86,8 +86,8 @@ client.on("messageCreate", async (message) => {
 client.on("messageCreate", async (message) => {
   if (message.content === "!userinfo") {
     console.log(message.author); // Full User object
-    console.log(message.member); // Full GuildMember object
-    message.reply("check the logs");
+    //console.log(message.member); // Full GuildMember object
+    message.reply("@TigerShrimp check the logs");
   }
 });
 
