@@ -24,21 +24,21 @@ client.once("clientReady", () => {
 client.on("messageCreate", async (message) => {
   if (message.author.id === dropbotid) {
     const boldMatches = message.content.match(/\*\*(.*?)\*\*/g);
-    if (boldMatches) {
+
+    if (boldMatches && boldMatches.length >= 2) {
       const boldText = boldMatches.map((b) => b.replace(/\*\*/g, "").trim());
 
       const username = boldText[0];
-      const itemName = boldText[1];
 
-      // if (isNaN(amount)) {
-      //   message.reply("⚠️ Invalid point amount:", boldText[1]);
-      //   return;
-      // }
+      const itemName = boldText.slice(1).join(" ");
 
       addPoints(username, itemName);
 
-      const pointsAdded = itemValues[itemName.toLowerCase()];
-      message.reply(`Awarded ${pointsAdded} points to ${username}`);
+      const pointsAdded = itemValues[itemName.toLowerCase()] || 0;
+
+      message.reply(
+        `Awarded ${pointsAdded} points (${itemName}) to ${username}`
+      );
     }
   }
 });
