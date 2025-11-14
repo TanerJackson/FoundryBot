@@ -3,7 +3,7 @@ import foundrybotid from "./gamebotid.js";
 import dotenv from "dotenv";
 import { Client, GatewayIntentBits } from "discord.js";
 import { addPoints, getAllPoints, getPoints } from "./points.js";
-
+import { itemValues } from "./itemValues.js";
 dotenv.config();
 //REMEMBER BOT ID IS NOT CORRECT YET
 const dropbotid = foundrybotid;
@@ -20,6 +20,7 @@ client.once("clientReady", () => {
   console.log(`Bot ready to go, logged in as ${client.user.tag}`);
 });
 
+//add points on bot post
 client.on("messageCreate", async (message) => {
   if (message.author.id === dropbotid) {
     const boldMatches = message.content.match(/\*\*(.*?)\*\*/g);
@@ -27,15 +28,17 @@ client.on("messageCreate", async (message) => {
       const boldText = boldMatches.map((b) => b.replace(/\*\*/g, "").trim());
 
       const username = boldText[0];
-      const amount = Number(boldText[1]);
+      const itemName = boldText[1];
 
-      if (isNaN(amount)) {
-        message.reply("⚠️ Invalid point amount:", boldText[1]);
-        return;
-      }
+      // if (isNaN(amount)) {
+      //   message.reply("⚠️ Invalid point amount:", boldText[1]);
+      //   return;
+      // }
 
-      addPoints(username, amount);
-      message.reply(`Awarded ${amount} points to ${username}`);
+      addPoints(username, itemName);
+
+      const pointsAdded = itemValues[itemName.toLowerCase()];
+      message.reply(`Awarded ${pointsAdded} points to ${username}`);
     }
   }
 });
