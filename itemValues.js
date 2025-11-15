@@ -38,7 +38,7 @@ export const itemValues = {
   "bandos chestplate": 30,
   "bandos tassets": 30,
   "armadyl helmet": 30,
-  "armadyl chsetplate": 30,
+  "armadyl chestplate": 30,
   "armadyl chainskirt": 30,
   "bludgeon claw": 30,
   "bludgeon spine": 30,

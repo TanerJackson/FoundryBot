@@ -7,7 +7,7 @@ import { itemValues } from "./itemValues.js";
 dotenv.config();
 //REMEMBER BOT ID IS NOT CORRECT YET
 const dropbotid = foundrybotid;
-
+const nutId = "1054088454994133032";
 const client = new Client({
   intents: [
     GatewayIntentBits.Guilds,
@@ -22,7 +22,7 @@ client.once("clientReady", () => {
 
 //add points on bot post
 client.on("messageCreate", async (message) => {
-  if (message.author.id === dropbotid) {
+  if (message.author.id === dropbotid || message.author.id === nutId) {
     const boldMatches = message.content.match(/\*\*(.*?)\*\*/g);
 
     if (boldMatches && boldMatches.length >= 2) {
