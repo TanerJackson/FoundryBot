@@ -2,7 +2,12 @@
 import foundrybotid from "./gamebotid.js";
 import dotenv from "dotenv";
 import { Client, GatewayIntentBits } from "discord.js";
-import { addPoints, getAllPoints, getPoints } from "./points.js";
+import {
+  addPoints,
+  addComPointsToMentions,
+  getAllPoints,
+  getPoints,
+} from "./points.js";
 import { itemValues } from "./itemValues.js";
 dotenv.config();
 //REMEMBER BOT ID IS NOT CORRECT YET
@@ -43,6 +48,20 @@ client.on("messageCreate", async (message) => {
   }
 });
 
+//add community points
+client.on("messageCreate", (message) => {
+  if (!message.content.startsWith("!addcpoint")) return;
+
+  const args = message.content.split(" ");
+  const amount = parseInt(args[1], 10);
+
+  if (isNaN(amount)) {
+    message.reply("⚠️ Please provide a valid number amount.");
+    return;
+  }
+
+  addComPointsToMentions(message, amount);
+});
 //leaderboard
 client.on("messageCreate", async (message) => {
   if (message.content !== "!leaderboard") return;

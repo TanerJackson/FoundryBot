@@ -3,6 +3,7 @@ import fs from "fs";
 import { itemValues } from "./itemValues.js";
 
 const pointsFile = "./points.json";
+const cpointsFile = "./cpoints.json";
 
 let points = {};
 if (fs.existsSync(pointsFile)) {
@@ -11,6 +12,15 @@ if (fs.existsSync(pointsFile)) {
 
 let savePoints = () => {
   fs.writeFileSync(pointsFile, JSON.stringify(points, null, 2));
+};
+
+let cpoints = {};
+if (fs.existsSync(cpointsFile)) {
+  cpoints = JSON.parse(fs.readFileSync(cpointsFile, "utf8"));
+}
+
+let saveCpoints = () => {
+  fs.writeFileSync(cpointsFile, JSON.stringify(cpoints, null, 2));
 };
 //addpoints
 export function addPoints(username, itemName) {
@@ -39,7 +49,42 @@ export function addPoints(username, itemName) {
   points[username] = Number(points[username]) + amount;
   savePoints();
 }
+//add community points
+export function addComPoints(username, amount) {
+  if (typeof username !== "string") {
+    console.warn("⚠️ addComPoints received a non-string username:", username);
+    username = String(username);
+  }
 
+  if (!cpoints[username]) cpoints[username] = 0;
+
+  if (typeof cpoints[username] !== "number") {
+    cpoints[username] = parseInt(cpoints[username], 10) || 0;
+  }
+
+  cpoints[username] = Number(cpoints[username]) + amount;
+  saveCpoints();
+}
+
+export function addComPointsToMentions(message, amount) {
+  const mentioned = message.mentions.members;
+
+  if (!mentioned || mentioned.size === 0) {
+    message.reply("⚠️ You must @mention at least one member!");
+    return;
+  }
+
+  mentioned.forEach((member) => {
+    const username = member.displayName;
+    addComPoints(username, amount);
+  });
+
+  message.reply(
+    `✅ Added **${amount} points** to ${mentioned.size} member(s).`
+  );
+}
+
+//get points
 export function getPoints(username) {
   if (typeof username !== "string") {
     messageLink.reply("username broken @TigerShrimp", username);
