@@ -38,7 +38,7 @@ client.once("clientReady", () => {
 
 //add points on bot post
 client.on("messageCreate", async (message) => {
-  if (message.author.id === dropbotid || isAdmin(message.author.id)) {
+  if (message.webhookId || isAdmin(message.author.id)) {
     const boldMatches = message.content.match(/\*\*(.*?)\*\*/g);
 
     if (boldMatches && boldMatches.length >= 2) {
