@@ -1,4 +1,5 @@
 //alrighty boyo lets go
+import fs from "fs";
 import foundrybotid from "./gamebotid.js";
 import dotenv from "dotenv";
 import { Client, GatewayIntentBits } from "discord.js";
@@ -7,12 +8,26 @@ import {
   addComPointsToMentions,
   getAllPoints,
   getPoints,
+  getAllComPoints,
 } from "./points.js";
 import { itemValues } from "./itemValues.js";
 dotenv.config();
 //REMEMBER BOT ID IS NOT CORRECT YET
 const dropbotid = foundrybotid;
-const nutId = "1054088454994133032";
+const adminsFile = "./adminId.json";
+let admins = { admins: [] };
+if (fs.existsSync(adminsFile)) {
+  admins = JSON.parse(fs.readFileSync(adminsFile, "utf8"));
+}
+
+function saveAdmins() {
+  fs.writeFileSync(adminsFile, JSON.stringify(admins, null, 2));
+}
+
+//check for admin
+function isAdmin(userid) {
+  return admins.admins.includes(userid);
+}
 const client = new Client({
   intents: [
     GatewayIntentBits.Guilds,
@@ -27,7 +42,7 @@ client.once("clientReady", () => {
 
 //add points on bot post
 client.on("messageCreate", async (message) => {
-  if (message.author.id === dropbotid || message.author.id === nutId) {
+  if (message.author.id === dropbotid || isAdmin(message.author.id)) {
     const boldMatches = message.content.match(/\*\*(.*?)\*\*/g);
 
     if (boldMatches && boldMatches.length >= 2) {
@@ -50,7 +65,8 @@ client.on("messageCreate", async (message) => {
 
 //add community points
 client.on("messageCreate", (message) => {
-  if (!message.content.startsWith("!addcpoint")) return;
+  if (!message.content.startsWith("!addcpoint") || !isAdmin(message.author.id))
+    return;
 
   const args = message.content.split(" ");
   const amount = parseInt(args[1], 10);
@@ -75,7 +91,7 @@ client.on("messageCreate", async (message) => {
 
     entries.sort((a, b) => b[1] - a[1]);
 
-    let leaderboardText = "** Leaderboard **\n\n";
+    let leaderboardText = "** Foundry Point Leaderboard **\n\n";
 
     for (const [user, points] of entries) {
       leaderboardText += `**${user}** — ${points} points\n`;
@@ -85,7 +101,29 @@ client.on("messageCreate", async (message) => {
   }
 });
 
-//get own points
+//community leaderboard
+client.on("messageCreate", async (message) => {
+  if (message.content !== "!comleaderboard") return;
+
+  const allPoints = getAllComPoints();
+  const entries = Object.entries(allPoints);
+  if (message.content === "!comleaderboard") {
+    if (entries.length === 0) {
+      return message.reply("No points!");
+    }
+
+    entries.sort((a, b) => b[1] - a[1]);
+
+    let leaderboardText = "** Community Point Leaderboard **\n\n";
+
+    for (const [user, points] of entries) {
+      leaderboardText += `**${user}** — ${points} points\n`;
+    }
+
+    message.reply(leaderboardText);
+  }
+});
+//show points
 
 client.on("messageCreate", async (message) => {
   if (message.content.startsWith("!points")) {
@@ -98,7 +136,10 @@ client.on("messageCreate", async (message) => {
     }
     const username = targetMember.displayName;
     const total = getPoints(username);
-    message.reply(`${username} has ${total} points.`);
+
+    message.reply(
+      `${username} has ${total[0]} Foundry points and ${total[1]} Community points.`
+    );
   }
 });
 //EVERYTHING BELOW ARE TEST CASES

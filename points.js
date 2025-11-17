@@ -1,4 +1,3 @@
-import { Message } from "discord.js";
 import fs from "fs";
 import { itemValues } from "./itemValues.js";
 
@@ -22,6 +21,7 @@ if (fs.existsSync(cpointsFile)) {
 let saveCpoints = () => {
   fs.writeFileSync(cpointsFile, JSON.stringify(cpoints, null, 2));
 };
+
 //addpoints
 export function addPoints(username, itemName) {
   if (typeof username !== "string") {
@@ -93,10 +93,15 @@ export function getPoints(username) {
 
   if (!points[username]) return 0;
 
-  const value = Number(points[username]);
-  return isNaN(value) ? 0 : value;
+  const fValue = Number(points[username]);
+  const cValue = Number(cpoints[username]);
+  return [fValue, cValue];
 }
 
 export function getAllPoints() {
   return points;
+}
+
+export function getAllComPoints() {
+  return cpoints;
 }
