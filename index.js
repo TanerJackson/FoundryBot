@@ -20,10 +20,6 @@ if (fs.existsSync(adminsFile)) {
   admins = JSON.parse(fs.readFileSync(adminsFile, "utf8"));
 }
 
-function saveAdmins() {
-  fs.writeFileSync(adminsFile, JSON.stringify(admins, null, 2));
-}
-
 //check for admin
 function isAdmin(userid) {
   return admins.admins.includes(userid);
