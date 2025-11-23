@@ -42,7 +42,9 @@ client.on("messageCreate", async (message) => {
     const boldMatches = message.content.match(/\*\*(.*?)\*\*/g);
 
     if (boldMatches && boldMatches.length >= 2) {
-      const boldText = boldMatches.map((b) => b.replace(/\*\*/g, "").trim());
+      let boldText = boldMatches.map((b) => b.replace(/\*\*/g, "").trim());
+
+      boldText = boldText.filter((b) => !/coins/i.test(b));
 
       const username = boldText[0];
 
@@ -52,9 +54,15 @@ client.on("messageCreate", async (message) => {
 
       const pointsAdded = itemValues[itemName.toLowerCase()] || 0;
 
-      message.reply(
-        `Awarded ${pointsAdded} points (${itemName}) to ${username}`
-      );
+      if (pointsAdded !== 0) {
+        message.reply(
+          `Awarded ${pointsAdded} points (${itemName}) to ${username}`
+        );
+      }
+      if (pointsAdded == 0) {
+        message.react("✅");
+      }
+      return;
     }
   }
 });
