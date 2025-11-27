@@ -39,7 +39,7 @@ for (const file of commandFiles) {
   client.commands.set(cmd.data.name, cmd);
 }
 
-client.once("ready", () => {
+client.once("clientReady", () => {
   console.log(`Bot ready, logged in as ${client.user.tag}`);
 });
 
@@ -61,7 +61,7 @@ client.on("interactionCreate", async (interaction) => {
 
 client.on("messageCreate", async (message) => {
   if (!(message.webhookId || isAdmin(message.author.id))) return;
-  if ((message.webhookId = 1438057779750371503)) return;
+  if (message.webhookId === 1438057779750371503) return;
   const boldMatches = message.content.match(/\*\*(.*?)\*\*/g);
   if (!boldMatches || boldMatches.length < 2) return;
 
