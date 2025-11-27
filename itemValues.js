@@ -84,7 +84,7 @@ export const itemValues = {
   "ultor vestige": 100,
   "magus vestige": 100,
   "osmumten's fang": 100,
-  "avernic hilt": 100,
+  "avernic defender hilt": 100,
   "sanguinesti staff": 100,
   "ghrazi rapier": 100,
   "ancient hilt": 100,
