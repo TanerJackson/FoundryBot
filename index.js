@@ -1,9 +1,10 @@
 import fs from "fs";
 import dotenv from "dotenv";
 import { Client, GatewayIntentBits, Collection } from "discord.js";
-import foundrybotid from "./gamebotid.js";
+import { getAllPoints, getAllComPoints } from "./points.js";
 import { itemValues } from "./itemValues.js";
 import { addPoints } from "./points.js";
+import cron from "node-cron";
 
 dotenv.config();
 
@@ -82,4 +83,17 @@ client.on("messageCreate", async (message) => {
   }
 });
 
+cron.schedule("0 8 * * *", () => {
+  const channel = client.channels.cache.get("1443854250278125629");
+  if (!channel) return console.error("Channel not found!");
+
+  channel.send(getAllPoints());
+});
+
+cron.schedule("0 8 * * *", () => {
+  const channel = client.channels.cache.get("1443854401188921486");
+  if (!channel) return console.error("Channel not found!");
+
+  channel.send(getAllComPoints());
+});
 client.login(process.env.TOKEN);
