@@ -49,7 +49,6 @@ export function addPoints(username, itemName) {
   points[username] = Number(points[username]) + amount;
   savePoints();
 }
-//add community points
 export function addComPoints(username, amount) {
   if (typeof username !== "string") {
     console.warn("⚠️ addComPoints received a non-string username:", username);
@@ -74,12 +73,20 @@ export function addComPointsToMentions(message, amount) {
     return;
   }
 
+  const appliedTo = [];
+
   mentioned.forEach((member) => {
     const username = member.displayName;
     addComPoints(username, amount);
+    appliedTo.push(username);
   });
 
-  message.reply(`✅ Added **${amount} points** to ${username}.`);
+  message.reply(
+    "✅ Added **" +
+      amount +
+      " points** to:\n" +
+      appliedTo.map((u) => `• ${u}`).join("\n")
+  );
 }
 
 //get points
