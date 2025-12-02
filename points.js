@@ -79,9 +79,7 @@ export function addComPointsToMentions(message, amount) {
     addComPoints(username, amount);
   });
 
-  message.reply(
-    `✅ Added **${amount} points** to ${mentioned.size} member(s).`
-  );
+  message.reply(`✅ Added **${amount} points** to ${username}.`);
 }
 
 //get points
