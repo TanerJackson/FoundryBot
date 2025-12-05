@@ -1,5 +1,6 @@
 import { SlashCommandBuilder } from "discord.js";
 import { addComPointsToMentions } from "../points.js";
+import { logAction } from "../logger.js";
 
 export default {
   data: new SlashCommandBuilder()
@@ -39,5 +40,10 @@ export default {
     };
 
     addComPointsToMentions(fakeMessage, amount);
+
+    logAction(
+      `Used /addcpoint (amount=${amount}) on ${user.displayName}`,
+      interaction.user.tag
+    );
   },
 };

@@ -1,7 +1,7 @@
 import { SlashCommandBuilder } from "discord.js";
 import { addPoints } from "../points.js";
 import { itemValues } from "../itemValues.js";
-
+import { logAction } from "../logger.js";
 export default {
   data: new SlashCommandBuilder()
     .setName("addpoint")
@@ -29,6 +29,7 @@ export default {
 
     const user = interaction.options.getUser("target");
     const member = interaction.guild.members.cache.get(user.id);
+    const item = interaction.options.getString("item");
     if (!member) {
       return interaction.reply({
         content: "User not found in this server.",
@@ -52,5 +53,9 @@ export default {
         content: `Item "${itemName}" has no points assigned.`,
       });
     }
+    logAction(
+      `Used /addpoint (item=${item}) on ${user.displayName}`,
+      interaction.user.tag
+    );
   },
 };

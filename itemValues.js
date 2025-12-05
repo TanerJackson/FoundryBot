@@ -136,6 +136,7 @@ export const itemValues = {
   "imbued heart": 350,
   "kodai insignia": 350,
   "tonalztics of ralos (uncharged)": 350,
+  pet: 350,
   "twisted bow": 600,
   "scythe of vitur (uncharged)": 600,
   "tumeken's shadow": 600,

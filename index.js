@@ -42,6 +42,19 @@ for (const file of commandFiles) {
 
 client.once("clientReady", () => {
   console.log(`Bot ready, logged in as ${client.user.tag}`);
+  cron.schedule("0 8 * * *", () => {
+    const channel = client.channels.cache.get("1443854250278125629");
+    if (!channel) return console.error("Channel not found!");
+
+    channel.send(getAllPoints());
+  });
+
+  cron.schedule("0 8 * * *", () => {
+    const channel = client.channels.cache.get("1443854401188921486");
+    if (!channel) return console.error("Channel not found!");
+
+    channel.send(getAllComPoints());
+  });
 });
 
 client.on("interactionCreate", async (interaction) => {
@@ -83,17 +96,4 @@ client.on("messageCreate", async (message) => {
   }
 });
 
-cron.schedule("0 8 * * *", () => {
-  const channel = client.channels.cache.get("1443854250278125629");
-  if (!channel) return console.error("Channel not found!");
-
-  channel.send(getAllPoints());
-});
-
-cron.schedule("0 8 * * *", () => {
-  const channel = client.channels.cache.get("1443854401188921486");
-  if (!channel) return console.error("Channel not found!");
-
-  channel.send(getAllComPoints());
-});
 client.login(process.env.TOKEN);
