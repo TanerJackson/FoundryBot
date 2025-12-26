@@ -78,7 +78,10 @@ client.on("messageCreate", async (message) => {
   if (message.webhookId === 1438057779750371503) return;
   const boldMatches = message.content.match(/\*\*(.*?)\*\*/g);
   if (!boldMatches || boldMatches.length < 2) return;
-
+  if (message.content.toLowerCase().includes("collection log")) {
+    message.react("✅");
+    return;
+  }
   let boldText = boldMatches.map((b) => b.replace(/\*\*/g, "").trim());
   boldText = boldText.filter((b) => !/coins/i.test(b));
 
