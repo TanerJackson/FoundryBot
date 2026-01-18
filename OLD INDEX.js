@@ -58,44 +58,36 @@ client.on("interactionCreate", async (interaction) => {
 });
 
 client.on("messageCreate", async (message) => {
-  if (message.embeds?.length) {
-    const embed = message.embeds[0];
+  if (!(message.webhookId || isAdmin(message.author.id))) return;
+  if (message.webhookId === 1438057779750371503) return;
+  const boldMatches = message.content.match(/\*\*(.*?)\*\*/g);
+  if (!boldMatches || boldMatches.length < 2) return;
+  if (message.content.toLowerCase().includes("collection log")) {
+    message.react("✅");
+    return;
+  }
+  let boldText = boldMatches.map((b) => b.replace(/\*\*/g, "").trim());
+  boldText = boldText.filter((b) => !/coins/i.test(b));
 
-    if (
-      embed.title &&
-      embed.title.toLowerCase().includes("new high value") &&
-      embed.description
-    ) {
-      const text = embed.description;
+  const username = boldText[0];
+  const itemName = boldText.slice(1).join(" ");
 
-      const userMatch = text.match(/^(.+?)\s+received/i);
-      const itemMatch = text.match(/drop:\s*(.+?)\s*\(/i);
+  addPoints(username, itemName);
 
-      if (userMatch && itemMatch) {
-        const username = userMatch[1].trim();
-        const itemName = itemMatch[1].trim();
+  const pointsAdded = itemValues[itemName.toLowerCase()] || 0;
 
-        addPoints(username, itemName);
-
-        const pointsAdded = itemValues[itemName.toLowerCase()] || 0;
-
-        if (pointsAdded !== 0) {
-          message.react(
-            `${pointsAdded} Foundry Points added to ${username} for ${itemName} drop.`,
-          );
-        } else {
-          message.react("✅");
-          console.log(`Unknown item used ${itemName}`);
-        }
-
-        return;
-      }
-    }
+  if (pointsAdded !== 0) {
+    message.reply(`Awarded ${pointsAdded} points (${itemName}) to ${username}`);
+  } else {
+    message.react("✅");
   }
 });
-
-client.once("clientReady", () => {
-  console.log(`✅ Logged in as ${client.user.tag}`);
+client.on("messageCreate", async (message) => {
+  if ((message.author.id = trackscapeID)) {
+    message.react("✅");
+    return;
+  }
+  return;
 });
 
 client.login(process.env.TOKEN);
