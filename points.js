@@ -23,7 +23,15 @@ let saveCpoints = () => {
 };
 
 //addpoints
+function normalizeName(name) {
+  return String(name)
+    .replace(/\u00A0/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
 export function addPoints(username, itemName) {
+  username = normalizeName(username);
   if (typeof username !== "string") {
     console.warn("⚠️ addPoints received a non-string username:", username);
     username = String(username);
@@ -85,7 +93,7 @@ export function addComPointsToMentions(message, amount) {
     "✅ Added **" +
       amount +
       " points** to:\n" +
-      appliedTo.map((u) => `• ${u}`).join("\n")
+      appliedTo.map((u) => `• ${u}`).join("\n"),
   );
 }
 

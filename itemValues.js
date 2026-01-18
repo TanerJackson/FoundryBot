@@ -18,6 +18,7 @@ export const itemValues = {
   "odium shard 1": 10,
   "odium shard 2": 10,
   "odium shard 3": 10,
+  "bandos boots": 10,
   "abyssal dagger": 30,
   "saradomin hilt": 30,
   "bandos hilt": 30,

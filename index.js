@@ -80,7 +80,7 @@ client.on("messageCreate", async (message) => {
         const pointsAdded = itemValues[itemName.toLowerCase()] || 0;
 
         if (pointsAdded !== 0) {
-          message.react(
+          message.reply(
             `${pointsAdded} Foundry Points added to ${username} for ${itemName} drop.`,
           );
         } else {
